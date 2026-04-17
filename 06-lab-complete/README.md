@@ -96,5 +96,7 @@ railway domain
 ```bash
 python check_production_ready.py
 ```
+# đường dẫn tới railway
+https://railway-service-production-88d6.up.railway.app
 
 Script này kiểm tra tất cả items trong checklist và báo cáo những gì còn thiếu.

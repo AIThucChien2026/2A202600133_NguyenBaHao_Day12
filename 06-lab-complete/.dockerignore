@@ -9,3 +9,6 @@ venv/
 *.md
 tests/
 .DS_Store
+Dockerfile
+docker-compose.yml
+nginx.conf
