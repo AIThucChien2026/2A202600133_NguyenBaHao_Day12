@@ -73,7 +73,8 @@ docker compose -f 02-docker/production/docker-compose.yml down
 
 ```bash
 # Basic vs Advanced
-docker images | grep agent
+docker images | grep agent # linux
+docker images | Select-String "agent" # ps window
 # agent-basic    ~  800 MB  ← python:3.11 base
 # agent-advanced ~  160 MB  ← python:3.11-slim + multi-stage
 ```

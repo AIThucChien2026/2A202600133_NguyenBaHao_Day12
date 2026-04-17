@@ -21,9 +21,9 @@ services:
   # ──────────────────────────────────────
   agent:
     build:
-      context: .
-      dockerfile: Dockerfile
-      target: runtime          # chỉ build stage "runtime", không build "builder"
+      context: ../../
+      dockerfile: 02-docker/production/Dockerfile
+      target: runtime
     environment:
       - ENVIRONMENT=staging
       - PORT=8000
