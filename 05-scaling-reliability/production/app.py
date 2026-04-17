@@ -16,6 +16,7 @@ Demo:
   # Sau đó test multi-turn conversation
   python test_stateless.py
 """
+
 import os
 import time
 import json
@@ -34,6 +35,7 @@ from utils.mock_llm import ask
 # ── Redis (optional — fallback to in-memory dict nếu không có Redis)
 try:
     import redis
+
     REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
     _redis = redis.from_url(REDIS_URL, decode_responses=True)
     _redis.ping()
@@ -56,6 +58,7 @@ INSTANCE_ID = os.getenv("INSTANCE_ID", f"instance-{uuid.uuid4().hex[:6]}")
 # Session Storage (Redis-backed, Stateless-compatible)
 # ──────────────────────────────────────────────────────────
 
+
 def save_session(session_id: str, data: dict, ttl_seconds: int = 3600):
     """Lưu session vào Redis với TTL."""
     serialized = json.dumps(data)
@@ -77,11 +80,13 @@ def append_to_history(session_id: str, role: str, content: str):
     """Thêm message vào conversation history."""
     session = load_session(session_id)
     history = session.get("history", [])
-    history.append({
-        "role": role,
-        "content": content,
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-    })
+    history.append(
+        {
+            "role": role,
+            "content": content,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        }
+    )
     # Giữ tối đa 20 messages (10 turns)
     if len(history) > 20:
         history = history[-20:]
@@ -116,6 +121,7 @@ app.add_middleware(
 # Models
 # ──────────────────────────────────────────────────────────
 
+
 class ChatRequest(BaseModel):
     question: str
     session_id: str | None = None  # None = tạo session mới
@@ -124,6 +130,7 @@ class ChatRequest(BaseModel):
 # ──────────────────────────────────────────────────────────
 # Endpoints
 # ──────────────────────────────────────────────────────────
+
 
 @app.post("/chat")
 async def chat(body: ChatRequest):
@@ -184,6 +191,7 @@ def delete_session(session_id: str):
 # Health / Metrics
 # ──────────────────────────────────────────────────────────
 
+
 @app.get("/health")
 def health():
     redis_ok = False
@@ -217,4 +225,4 @@ def ready():
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port, reload=True)
+    uvicorn.run("app:app", host="0.0.0.0", port=port, reload=True)

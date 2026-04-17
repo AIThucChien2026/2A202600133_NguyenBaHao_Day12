@@ -60,7 +60,7 @@ def health():
 
 
 if __name__ == "__main__":
-    # ✅ Railway inject PORT — PHẢI đọc từ env
+    # ✅ Render inject PORT — PHẢI đọc từ env
     port = int(os.getenv("PORT", 8000))
     print(f"Starting on port {port} (from PORT env var)")
     uvicorn.run(app, host="0.0.0.0", port=port)

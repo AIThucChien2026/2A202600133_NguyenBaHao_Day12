@@ -22,16 +22,20 @@ develop/
 cd basic
 pip install -r requirements.txt
 AGENT_API_KEY=my-secret-key python app.py
-
+#$env:AGENT_API_KEY="my-secret-key"; python app.py
 # Test với key hợp lệ
 curl -H "X-API-Key: my-secret-key" http://localhost:8000/ask \
      -X POST -H "Content-Type: application/json" \
      -d '{"question": "hello"}'
 
+# Với window ps
+curl `Invoke-RestMethod -Uri "http://localhost:8000/ask?question=Hello" -Method Post -Headers @{"X-API-Key" = "demo-key-change-in-production"}`
+
 # Test không có key → 401
 curl http://localhost:8000/ask -X POST \
      -H "Content-Type: application/json" \
      -d '{"question": "hello"}'
+#Invoke-RestMethod -Method Post -Uri "http://localhost:8000/ask" -ContentType "application/json" -Body '{"question": "hello"}'
 ```
 
 ---
@@ -59,12 +63,17 @@ curl -X POST http://localhost:8000/auth/token \
      -H "Content-Type: application/json" \
      -d '{"username": "student", "password": "demo123"}'
 
+ # window ps
+ curl $response = Invoke-RestMethod -Uri "http://localhost:8000/auth/token" -Method Post -ContentType "application/json" -Body '{"username": "student", "password": "demo123"}'
 # Dùng token
+
 curl -H "Authorization: Bearer <token>" \
      http://localhost:8000/ask \
      -X POST -H "Content-Type: application/json" \
      -d '{"question": "what is docker?"}'
-
+# window ps
+`$token = $response.access_token`
+  `Invoke-RestMethod -Uri "http://localhost:8000/ask" -Method Post -Headers @{Authorization = "Bearer $token"} -Body '{"question": "What is Docker?"}'`
 # Test rate limit: spam 20 requests liên tiếp
 python test_advanced.py --test rate-limit
 ```

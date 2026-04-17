@@ -18,6 +18,7 @@ Simulate shutdown:
     kill -SIGTERM <pid>
     # Xem agent log graceful shutdown message
 """
+
 import os
 import time
 import signal
@@ -85,6 +86,7 @@ async def track_requests(request, call_next):
 # Business Logic
 # ──────────────────────────────────────────────────────────
 
+
 @app.get("/")
 def root():
     return {"message": "AI Agent with health checks!"}
@@ -100,6 +102,7 @@ async def ask_agent(question: str):
 # ──────────────────────────────────────────────────────────
 # HEALTH CHECKS — Phần quan trọng nhất của file này
 # ──────────────────────────────────────────────────────────
+
 
 @app.get("/health")
 def health():
@@ -122,6 +125,7 @@ def health():
     # Check memory (ví dụ đơn giản)
     try:
         import psutil
+
         mem = psutil.virtual_memory()
         checks["memory"] = {
             "status": "ok" if mem.percent < 90 else "degraded",
@@ -130,9 +134,9 @@ def health():
     except ImportError:
         checks["memory"] = {"status": "ok", "note": "psutil not installed"}
 
-    overall_status = "ok" if all(
-        v.get("status") == "ok" for v in checks.values()
-    ) else "degraded"
+    overall_status = (
+        "ok" if all(v.get("status") == "ok" for v in checks.values()) else "degraded"
+    )
 
     return {
         "status": overall_status,
@@ -172,6 +176,7 @@ def ready():
 # GRACEFUL SHUTDOWN
 # ──────────────────────────────────────────────────────────
 
+
 def handle_sigterm(signum, frame):
     """
     SIGTERM là signal platform gửi khi muốn dừng container.
@@ -191,7 +196,7 @@ if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
     logger.info(f"Starting agent on port {port}")
     uvicorn.run(
-        app,
+        "app:app",
         host="0.0.0.0",
         port=port,
         # ✅ Cho phép graceful shutdown
