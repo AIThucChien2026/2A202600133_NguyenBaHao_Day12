@@ -1,0 +1,224 @@
+#  Delivery Checklist — Day 12 Lab Submission
+
+> **Student Name:** _________________________  
+> **Student ID:** _________________________  
+> **Date:** _________________________
+
+---
+
+##  Submission Requirements
+
+Submit a **GitHub repository** containing:
+
+### 1. Mission Answers (40 points)
+
+Create a file `MISSION_ANSWERS.md` with your answers to all exercises:
+
+```markdown
+# Day 12 Lab - Mission Answers
+
+## Part 1: Localhost vs Production
+
+### Exercise 1.1: Anti-patterns found
+1. **Hardcoded Secrets:** API key và thông tin database được để trực tiếp trong code, gây rủi ro lộ lọt thông tin nhạy cảm khi đẩy lên repository.
+2. **Thiếu cơ chế quản lý cấu hình:** Không có sự tách biệt giữa cấu hình môi trường phát triển và môi trường thực tế (ví dụ: cờ DEBUG, cổng kết nối).
+3. **Sử dụng lệnh print():** Việc dùng `print()` để log khiến hệ thống khó theo dõi, thiếu tính quan sát (observability) và không thể phân tích log theo cấu trúc trong môi trường sản xuất.
+4. **Không có Health Check:** Ứng dụng không cung cấp endpoint cho phép các nền tảng (như Docker/Cloud) kiểm tra tình trạng sức khỏe (liveness), dẫn đến việc platform không thể tự động xử lý khi ứng dụng gặp sự cố.
+5. **Cấu hình cứng (Rigid Configuration):** Cổng kết nối và địa chỉ host được cố định, làm giảm tính linh hoạt khi triển khai trên các hạ tầng cloud khác nhau.
+
+### Exercise 1.3:Comparison tabl
+| Đặc điểm | Môi trường phát triển | Môi trường sản xuất | Tại sao quan trọng? |
+|---------|---------|------------|----------------|
+| Cấu hình | Hardcode trong code | Biến môi trường (Env Vars) | Đảm bảo bảo mật và tính di động của mã nguồn. |
+| Health check | Không có | Có endpoint `/health` | Giúp Orchestrator giám sát trạng thái ứng dụng. |
+| Ghi log | Dùng `print()` | Log theo cấu trúc (JSON) | Phục vụ truy vết, phân tích lỗi và giám sát hệ thống. |
+| Ngắt kết nối | Đột ngột | Graceful Shutdown | Bảo toàn dữ liệu, hoàn tất các yêu cầu đang xử lý. |
+
+## Part 2: Docker
+
+### Exercise 2.1: Dockerfile questions
+1. **Base image:** Sử dụng `python:3.11'.
+2. **Working directory:** Thư mục `/app`.
+3. **Tại sao copy requirements trước?** Để tận dụng cơ chế Layer Caching của Docker, giúp việc build lại nhanh hơn khi chỉ thay đổi code mà không thay đổi dependencies.
+4. **Sự khác biệt giữa CMD và ENTRYPOINT:** `CMD` cung cấp lệnh mặc định có thể dễ dàng ghi đè, trong khi `ENTRYPOINT` xác định ứng dụng chính và khó bị ghi đè hơn.
+
+### Exercise 2.3: Image size comparison
+- Develop: 1.66 GB 
+- Production: 238MB
+- Difference: 85.66%
+
+
+## Part 3: Cloud Deployment
+
+### Exercise 3.1: Railway deployment
+- URL: https://your-app.railway.app
+- Screenshot: [Link to screenshot in repo]
+
+## Part 4: API Security
+
+### Exercise 4.1-4.3: Test results
+[Paste your test outputs]
+
+### Exercise 4.4: Cost guard implementation
+[Explain your approach]
+
+## Part 5: Scaling & Reliability
+
+### Exercise 5.1-5.5: Implementation notes
+[Your explanations and test results]
+```
+
+---
+
+### 2. Full Source Code - Lab 06 Complete (60 points)
+
+Your final production-ready agent with all files:
+
+```
+your-repo/
+├── app/
+│   ├── main.py              # Main application
+│   ├── config.py            # Configuration
+│   ├── auth.py              # Authentication
+│   ├── rate_limiter.py      # Rate limiting
+│   └── cost_guard.py        # Cost protection
+├── utils/
+│   └── mock_llm.py          # Mock LLM (provided)
+├── Dockerfile               # Multi-stage build
+├── docker-compose.yml       # Full stack
+├── requirements.txt         # Dependencies
+├── .env.example             # Environment template
+├── .dockerignore            # Docker ignore
+├── railway.toml             # Railway config (or render.yaml)
+└── README.md                # Setup instructions
+```
+
+**Requirements:**
+-  All code runs without errors
+-  Multi-stage Dockerfile (image < 500 MB)
+-  API key authentication
+-  Rate limiting (10 req/min)
+-  Cost guard ($10/month)
+-  Health + readiness checks
+-  Graceful shutdown
+-  Stateless design (Redis)
+-  No hardcoded secrets
+
+---
+
+### 3. Service Domain Link
+
+Create a file `DEPLOYMENT.md` with your deployed service information:
+
+```markdown
+# Deployment Information
+
+## Public URL
+https://your-agent.railway.app
+
+## Platform
+Railway / Render / Cloud Run
+
+## Test Commands
+
+### Health Check
+```bash
+curl https://your-agent.railway.app/health
+# Expected: {"status": "ok"}
+```
+
+### API Test (with authentication)
+```bash
+curl -X POST https://your-agent.railway.app/ask \
+  -H "X-API-Key: YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"user_id": "test", "question": "Hello"}'
+```
+
+## Environment Variables Set
+- PORT
+- REDIS_URL
+- AGENT_API_KEY
+- LOG_LEVEL
+
+## Screenshots
+- [Deployment dashboard](screenshots/dashboard.png)
+- [Service running](screenshots/running.png)
+- [Test results](screenshots/test.png)
+```
+
+##  Pre-Submission Checklist
+
+- [ ] Repository is public (or instructor has access)
+- [ ] `MISSION_ANSWERS.md` completed with all exercises
+- [ ] `DEPLOYMENT.md` has working public URL
+- [ ] All source code in `app/` directory
+- [ ] `README.md` has clear setup instructions
+- [ ] No `.env` file committed (only `.env.example`)
+- [ ] No hardcoded secrets in code
+- [ ] Public URL is accessible and working
+- [ ] Screenshots included in `screenshots/` folder
+- [ ] Repository has clear commit history
+
+---
+
+##  Self-Test
+
+Before submitting, verify your deployment:
+
+```bash
+# 1. Health check
+curl https://your-app.railway.app/health
+
+# 2. Authentication required
+curl https://your-app.railway.app/ask
+# Should return 401
+
+# 3. With API key works
+curl -H "X-API-Key: YOUR_KEY" https://your-app.railway.app/ask \
+  -X POST -d '{"user_id":"test","question":"Hello"}'
+# Should return 200
+
+# 4. Rate limiting
+for i in {1..15}; do 
+  curl -H "X-API-Key: YOUR_KEY" https://your-app.railway.app/ask \
+    -X POST -d '{"user_id":"test","question":"test"}'; 
+done
+# Should eventually return 429
+```
+
+---
+
+##  Submission
+
+**Submit your GitHub repository URL:**
+
+```
+https://github.com/your-username/day12-agent-deployment
+```
+
+**Deadline:** 17/4/2026
+
+---
+
+##  Quick Tips
+
+1.  Test your public URL from a different device
+2.  Make sure repository is public or instructor has access
+3.  Include screenshots of working deployment
+4.  Write clear commit messages
+5.  Test all commands in DEPLOYMENT.md work
+6.  No secrets in code or commit history
+
+---
+
+##  Need Help?
+
+- Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
+- Review [CODE_LAB.md](CODE_LAB.md)
+- Ask in office hours
+- Post in discussion forum
+
+---
+
+**Good luck! **

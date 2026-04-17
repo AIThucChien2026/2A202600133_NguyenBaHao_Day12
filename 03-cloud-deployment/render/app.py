@@ -1,7 +1,8 @@
 """
-Agent Railway-ready.
-Railway inject PORT env var tự động — agent phải dùng os.getenv("PORT").
+Agent Render-ready.
+Render inject PORT env var tự động — agent phải dùng os.getenv("PORT").
 """
+
 import os
 import time
 from datetime import datetime, timezone
@@ -11,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from utils.mock_llm import ask
 
-app = FastAPI(title="Agent on Railway", version="1.0.0")
+app = FastAPI(title="Agent on Render", version="1.0.0")
 START_TIME = time.time()
 
 app.add_middleware(
@@ -25,7 +26,7 @@ app.add_middleware(
 @app.get("/")
 def root():
     return {
-        "message": "AI Agent running on Railway!",
+        "message": "AI Agent running on Render!",
         "docs": "/docs",
         "health": "/health",
     }
@@ -40,20 +41,20 @@ async def ask_agent(request: Request):
     return {
         "question": question,
         "answer": ask(question),
-        "platform": "Railway",
+        "platform": "Render",
     }
 
 
 @app.get("/health")
 def health():
     """
-    Railway sẽ check endpoint này định kỳ.
-    Trả về 200 = healthy. Non-200 = Railway restart container.
+    Render sẽ check endpoint này định kỳ.
+    Trả về 200 = healthy. Non-200 = Render restart container.
     """
     return {
         "status": "ok",
         "uptime_seconds": round(time.time() - START_TIME, 1),
-        "platform": "Railway",
+        "platform": "Render",
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
