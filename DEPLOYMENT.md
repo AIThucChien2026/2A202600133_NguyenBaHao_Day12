@@ -1,7 +1,7 @@
 # Deployment Information
 
 ## Public URL
-https://student-agent-deployment.railway.app
+https://railway-service-production-88d6.up.railway.app
 
 ## Platform
 Railway
@@ -10,23 +10,26 @@ Railway
 
 ### Health Check
 ```bash
-curl https://student-agent-deployment.railway.app/health
+curl https://railway-service-production-88d6.up.railway.app/health
 # Kết quả mong đợi: {"status": "ok"}
 ```
 
 ### API Test (Yêu cầu xác thực)
 ```bash
-curl -X POST https://student-agent-deployment.railway.app/ask \
-  -H "X-API-Key: my-super-secret-key" \
+curl -X POST https://railway-service-production-88d6.up.railway.app/ask \
+  -H "X-API-Key: my-secret-key" \
   -H "Content-Type: application/json" \
   -d '{"user_id": "test", "question": "Hello"}'
 ```
 
 ## Các biến môi trường đã thiết lập
-- PORT: 8000
-- AGENT_API_KEY: my-super-secret-key
+- PORT
+- REDIS_URL
+- AGENT_API_KEY
+- GOOGLE_API_KEY
+- LLM_MODEL
 
 ## Ảnh chụp màn hình
-- [ ] Ảnh chụp Dashboard Railway
-- [ ] Ảnh chụp dịch vụ đang hoạt động
-- [ ] Ảnh chụp kết quả kiểm tra
+- [x] Ảnh chụp Dashboard Railway: [dashboard.png](screenshot/dashboard.png)
+- [x] Ảnh chụp dịch vụ đang hoạt động: [runing.png](screenshot/runing.png)
+- [x] Ảnh chụp kết quả kiểm tra: [testing.png](screenshot/testing.png)

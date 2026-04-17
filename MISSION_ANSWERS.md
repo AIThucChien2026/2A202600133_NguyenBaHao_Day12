@@ -52,7 +52,7 @@ Create a file `MISSION_ANSWERS.md` with your answers to all exercises:
 
 ### Exercise 3.1: Render deployment
 - URL: https://ai-agent-pp5g.onrender.com
-- Screenshot: [Link to screenshot in repo]
+- Screenshot: ![alt text](image.png)
 
 ## Part 4: API Security
 
@@ -219,23 +219,23 @@ Create a file `DEPLOYMENT.md` with your deployed service information:
 # Deployment Information
 
 ## Public URL
-https://your-agent.railway.app
+https://railway-service-production-88d6.up.railway.app
 
 ## Platform
-Railway / Render / Cloud Run
+Railway
 
 ## Test Commands
 
 ### Health Check
 ```bash
-curl https://your-agent.railway.app/health
+curl https://railway-service-production-88d6.up.railway.app/health
 # Expected: {"status": "ok"}
 ```
 
 ### API Test (with authentication)
 ```bash
-curl -X POST https://your-agent.railway.app/ask \
-  -H "X-API-Key: YOUR_KEY" \
+curl -X POST https://railway-service-production-88d6.up.railway.app/ask \
+  -H "X-API-Key: my-secret-key" \
   -H "Content-Type: application/json" \
   -d '{"user_id": "test", "question": "Hello"}'
 ```
@@ -244,26 +244,27 @@ curl -X POST https://your-agent.railway.app/ask \
 - PORT
 - REDIS_URL
 - AGENT_API_KEY
-- LOG_LEVEL
+- GOOGLE_API_KEY
+- LLM_MODEL
 
 ## Screenshots
-- [Deployment dashboard](screenshots/dashboard.png)
-- [Service running](screenshots/running.png)
-- [Test results](screenshots/test.png)
+- [Deployment dashboard](../screenshot/dashboard.png)
+- [Service running](../screenshot/runing.png)
+- [Test results](../screenshot/testing.png)
 ```
 
 ##  Pre-Submission Checklist
 
-- [ ] Repository is public (or instructor has access)
-- [ ] `MISSION_ANSWERS.md` completed with all exercises
-- [ ] `DEPLOYMENT.md` has working public URL
-- [ ] All source code in `app/` directory
-- [ ] `README.md` has clear setup instructions
-- [ ] No `.env` file committed (only `.env.example`)
-- [ ] No hardcoded secrets in code
-- [ ] Public URL is accessible and working
-- [ ] Screenshots included in `screenshots/` folder
-- [ ] Repository has clear commit history
+- [x] Repository is public (or instructor has access)
+- [x] `MISSION_ANSWERS.md` completed with all exercises
+- [x] `DEPLOYMENT.md` has working public URL
+- [x] All source code in `app/` directory
+- [x] `README.md` has clear setup instructions
+- [x] No `.env` file committed (only `.env.example`)
+- [x] No hardcoded secrets in code
+- [x] Public URL is accessible and working
+- [x] Screenshots included in `screenshot/` folder
+- [x] Repository has clear commit history
 
 ---
 
