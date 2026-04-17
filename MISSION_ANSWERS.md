@@ -1,7 +1,9 @@
 #  Delivery Checklist — Day 12 Lab Submission
 
 > **Student Name:**  Nguyen Ba hao
+> 
 > **Student ID:** 2A202600133
+> 
 > **Date:** 18/04/2026
 
 ---
